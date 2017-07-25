@@ -12,7 +12,7 @@ class Request: NSObject, URLSessionDownloadDelegate, URLSessionDelegate {
     
     private var downloadTask: URLSessionDownloadTask?
     
-    lazy var urlSession: URLSession = {
+    private lazy var urlSession: URLSession = {
     
         var configuration = URLSessionConfiguration.default
         var session = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
@@ -20,13 +20,41 @@ class Request: NSObject, URLSessionDownloadDelegate, URLSessionDelegate {
         return session
     }()
     
-    func JSONRwquest(completion: @escaping (_ result: Dictionary<String,Any>?, _ error: NSError?) -> ()) {
+    func requestJSONDownload(completion: @escaping (_ result: Dictionary<String,Any>?, _ error: Error?) -> ()) {
     
+        guard let url = URL(string: "") else {
+            return
+        }
+        
+        let request = URLRequest(url: url)
+        let session = URLSession.shared
+    
+        let task = session.dataTask(with: request) { (responseData, response, error) in
+            
+            if let data = responseData, (error == nil) {
+            
+                do {
+                
+                    let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! Dictionary<String, Any>
+                
+                } catch let error {
+                    print("Error decoding data to JSON: \(error.localizedDescription)")
+                }
+                
+                completion(json, nil)
+                
+            } else {
+            
+                completion(nil, error)
+            
+            }
+            
+        }.resume()
     }
 
-    func fetchOperation(){
+    func requestFileDownload(){
   
-        guard let url = URL(string: "http://download.thinkbroadband.com/200MB.zip") else {
+        guard let url = URL(string: "http://download.thinkbroadband.com/5MB.zip") else {
             return
         }
         
@@ -55,12 +83,8 @@ class Request: NSObject, URLSessionDownloadDelegate, URLSessionDelegate {
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         
         let filemanager = FileManager.default
-        
-        guard let documentsURL = filemanager.urls(for: .documentDirectory, in: .userDomainMask).first! else {
-            return
-        }
-      
-        print(documentsURL)
+    
+        let documentsURL = filemanager.urls(for: .documentDirectory, in: .userDomainMask).first!
         
         guard let response = downloadTask.response else {
             return
@@ -93,17 +117,20 @@ class Request: NSObject, URLSessionDownloadDelegate, URLSessionDelegate {
                 print(error.localizedDescription)
             }
         
+            var fileSize : UInt64
+            
             do {
-                let attributes: Dictionary? = try FileManager().attributesOfItem(atPath: fileDestination.path)
+
+                let attr = try FileManager.default.attributesOfItem(atPath: fileDestination.path)
+                fileSize = attr[FileAttributeKey.size] as! UInt64
                 
-                if let attr = attributes {
-                    print(attr)
-                    
-                }
-            } catch let error {
-                print(error.localizedDescription)
+                let dict = attr as NSDictionary
+                fileSize = dict.fileSize()
+                print(fileSize)
+          
+            } catch {
+                print("Error: \(error)")
             }
-        
         }
     }
 }
