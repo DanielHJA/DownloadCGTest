@@ -16,6 +16,7 @@
 		7BA078111F27E72300D81143 /* DownloadTestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA078101F27E72300D81143 /* DownloadTestUITests.swift */; };
 		7BA0781F1F27E7F400D81143 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0781E1F27E7F400D81143 /* Request.swift */; };
 		7BA078211F27E81200D81143 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA078201F27E81200D81143 /* ProgressView.swift */; };
+		7BA078231F28082E00D81143 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BA078221F28082E00D81143 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		7BA078121F27E72300D81143 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7BA0781E1F27E7F400D81143 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		7BA078201F27E81200D81143 /* ProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		7BA078221F28082E00D81143 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 		7BA077E41F27E72200D81143 = {
 			isa = PBXGroup;
 			children = (
+				7BA078221F28082E00D81143 /* Default-568h@2x.png */,
 				7BA077EF1F27E72200D81143 /* DownloadTest */,
 				7BA078041F27E72300D81143 /* DownloadTestTests */,
 				7BA0780F1F27E72300D81143 /* DownloadTestUITests */,
@@ -242,6 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7BA077FB1F27E72200D81143 /* LaunchScreen.storyboard in Resources */,
+				7BA078231F28082E00D81143 /* Default-568h@2x.png in Resources */,
 				7BA077F81F27E72200D81143 /* Assets.xcassets in Resources */,
 				7BA077F61F27E72200D81143 /* Main.storyboard in Resources */,
 			);

@@ -8,7 +8,15 @@
 
 import UIKit
 
+protocol DownloadUpdateProtocol {
+
+    func updateProgress(progress: Double)
+    
+}
+
 class Request: NSObject, URLSessionDownloadDelegate, URLSessionDelegate {
+    
+    var delegate: DownloadUpdateProtocol?
     
     private var downloadTask: URLSessionDownloadTask?
     
@@ -29,19 +37,25 @@ class Request: NSObject, URLSessionDownloadDelegate, URLSessionDelegate {
         let request = URLRequest(url: url)
         let session = URLSession.shared
     
-        let task = session.dataTask(with: request) { (responseData, response, error) in
+        _ = session.dataTask(with: request) { (responseData, response, error) in
+            
+            var json: Dictionary<String, Any>?
             
             if let data = responseData, (error == nil) {
-            
+                
                 do {
                 
-                    let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! Dictionary<String, Any>
+                    json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? Dictionary<String, Any>
                 
                 } catch let error {
                     print("Error decoding data to JSON: \(error.localizedDescription)")
                 }
                 
-                completion(json, nil)
+                guard let jsonData = json else {
+                    return
+                }
+                
+                completion(jsonData, nil)
                 
             } else {
             
@@ -49,12 +63,12 @@ class Request: NSObject, URLSessionDownloadDelegate, URLSessionDelegate {
             
             }
             
-        }.resume()
+        }
     }
 
     func requestFileDownload(){
   
-        guard let url = URL(string: "http://download.thinkbroadband.com/5MB.zip") else {
+        guard let url = URL(string: "http://download.thinkbroadband.com/200MB.zip") else {
             return
         }
         
@@ -67,9 +81,11 @@ class Request: NSObject, URLSessionDownloadDelegate, URLSessionDelegate {
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         
-        let percentageWritten = (Double(totalBytesWritten) / Double(totalBytesExpectedToWrite)) * 100
+        let percentageWritten: Double = (Double(totalBytesWritten) / Double(totalBytesExpectedToWrite)) * 100
         
-        print(percentageWritten)
+        self.delegate?.updateProgress(progress: percentageWritten)
+        
+      //  print(percentageWritten)
     }
     
     func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
