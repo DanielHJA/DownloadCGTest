@@ -85,7 +85,6 @@ class Request: NSObject, URLSessionDownloadDelegate, URLSessionDelegate {
         
         self.delegate?.updateProgress(progress: percentageWritten)
         
-      //  print(percentageWritten)
     }
     
     func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
