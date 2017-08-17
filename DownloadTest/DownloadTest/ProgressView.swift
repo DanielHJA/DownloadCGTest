@@ -11,6 +11,7 @@ import UIKit
 class ProgressView: UIView {
 
     var shapeLayer: CAShapeLayer?
+    let π: CGFloat = CGFloat(Double.pi)
     
     func initiateDownload(){
         
@@ -27,13 +28,17 @@ class ProgressView: UIView {
         //let startAngle: CGFloat = CGFloat(3.0 * Double.pi / 4)
         //let endAngle: CGFloat = CGFloat(Double.pi / 4.0)
         
-        let startAngle = CGFloat((Double.pi / 2) * 3)
-        let endAngle = CGFloat(Double.pi * 2 + (Double.pi / 2) * 3)
+       // let startAngle = CGFloat((Double.pi / 2) * 3)
+       // let endAngle = CGFloat(Double.pi * 2 + (Double.pi / 2) * 3)
+        
+        let startAngle = 3.0 * π / 2.0
+        let endAngle = startAngle + (4.0 * π / 2.0)
+        
         
         let circlePath = UIBezierPath(arcCenter:CGPoint(x: self.frame.width / 2, y: self.frame.height / 2), radius:radius, startAngle: startAngle, endAngle:endAngle, clockwise: true)
         
         shapeLayer?.path = circlePath.cgPath
-        
+    
         self.layer.addSublayer(shapeLayer!)
 
     }

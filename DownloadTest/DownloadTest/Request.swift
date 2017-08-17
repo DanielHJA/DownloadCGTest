@@ -68,7 +68,7 @@ class Request: NSObject, URLSessionDownloadDelegate, URLSessionDelegate {
 
     func requestFileDownload(){
   
-        guard let url = URL(string: "http://download.thinkbroadband.com/200MB.zip") else {
+        guard let url = URL(string: "http://download.thinkbroadband.com/10MB.zip") else {
             return
         }
         
